@@ -6,7 +6,7 @@ FROM aliabbass/openjdk-11-rhel8:latest
 WORKDIR /app
 
 # Copy the built JAR file into the container
-COPY /app/target/my-maven-docker-project.jar .
+COPY target/my-maven-docker-project.jar ./
 
 # Expose the application port (if needed)
 EXPOSE 8080
