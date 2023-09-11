@@ -1,5 +1,6 @@
 # Use a base image with a Java Runtime Environment (JRE)
-FROM registry.redhat.io/openjdk/openjdk-11-rhel8
+FROM aliabbass/openjdk-11-rhel8:latest
+#registry.redhat.io/openjdk/openjdk-11-rhel8
 
 # Set the working directory inside the container
 WORKDIR /app
