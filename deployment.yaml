@@ -14,7 +14,7 @@ spec:
       serviceAccountName: my-app-serviceaccount
       containers:
         - name: my-app-container
-          image: quay.io/tinlam/test/java-app
+          image: docker.io/aliabbass/java-app:latest
           ports:
             - containerPort: 8080
       imagePullSecrets:
