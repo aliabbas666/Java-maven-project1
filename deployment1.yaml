@@ -15,7 +15,6 @@ spec:
       labels:
         app: java-app
     spec:
-      serviceAccountName: my-app-serviceaccount
       containers:
       - image: docker.io/aliabbass/java-app:latest
         name: my-app-container
