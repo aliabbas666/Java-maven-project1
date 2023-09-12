@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: wordpress-ingress
+  name: ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: test.example.com
+  - host: testapp.jeostats.com
     http:
       paths:
       - backend:
           service:
-            name: wordpress
+            name: java-app-service
             port:
               number: 80
         path: /
