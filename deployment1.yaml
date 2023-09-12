@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app-deployment
+  labels:
+    app: java-app
+spec:
+  selector:
+    matchLabels:
+      app: java-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: java-app
+    spec:
+      serviceAccountName: my-app-serviceaccount
+      containers:
+      - image: docker.io/aliabbass/java-app:latest
+        name: my-app-container
+        ports:
+        - containerPort: 8080   
+      imagePullSecrets:
+        - name: tim-secret
