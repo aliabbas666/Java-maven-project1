@@ -16,7 +16,7 @@ spec:
         app: java-app
     spec:
       containers:
-      - image: docker.io/aliabbass/java-app:latest
+      - image: quay.io/tinlam/java-app:latest
         name: my-app-container
         ports:
         - containerPort: 8080   
