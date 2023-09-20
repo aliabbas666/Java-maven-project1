@@ -1,0 +1,93 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: nodejs-pipeline
+spec:
+  params:
+    - name: IMAGE
+      description: Image description
+      type: string
+      default: "quay.io/tinlam/java-app"
+    - name: TAG
+      description: Preferred tag
+      default: latest
+  workspaces:
+    - name: linked-workspace
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: linked-workspace
+      params:
+        - name: url
+          value: https://github.com/aliabbas666/Java-maven-project
+        - name: subdirectory
+          value: ""
+        - name: deleteExisting
+          value: "false"
+    - name: build-push-image
+      taskRef:
+        name: buildah
+      runAfter:
+        - fetch-repository
+      workspaces:
+        - name: source
+          workspace: linked-workspace
+      params:
+        - name: IMAGE
+          value: "$(params.IMAGE):$(params.TAG)"
+        - name: CONTEXT
+          value: "."
+        - name: FORMAT
+          value: "docker"
+    - name: check-for-container-vulnerabilities
+      taskRef:
+        name: snyk-container
+      params:
+        - name: image
+          value: quay.io/tinlam/java-app:latest
+        - name: args
+          value:
+          - --severity-threshold=high
+      runAfter:
+        - build-push-image
+      workspaces:
+        - name: source
+          workspace: linked-workspace
+    - name: sonarqube-analysis
+      taskRef:
+        name: sonarqube-scanner
+      params:
+        - name: SONAR_HOST_URL
+          value: https://sonarcloud.io
+        - name: SONARQUBE_TOKEN
+          value: 629b21dbf2a527a4d94b9afddf091fb90fd02a4a
+        - name: SONAR_PROJECT_KEY
+          value: timlam007_Java-maven-project
+        - name: SONAR_ORGANIZATION
+          value: timlam007
+        - name: SOURCE_TO_SCAN
+          value: src
+        - name: SONAR_TOKEN
+          value: 629b21dbf2a527a4d94b9afddf091fb90fd02a4a
+      runAfter:
+        - build-push-image
+      workspaces:
+        - name: source
+          workspace: linked-workspace
+    - name: create-deployment
+      taskRef:
+        name: kubernetes-actions
+      runAfter:
+        - build-push-image
+      params:
+        - name: script
+          value: |
+            kubectl apply --filename deployment1.yaml
+            kubectl apply --filename service.yaml
+            kubectl apply --filename ingress.yaml
+      workspaces:
+        - name: manifest-dir
+          workspace: linked-workspace
