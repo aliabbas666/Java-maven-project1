@@ -63,15 +63,15 @@ spec:
         - name: SONAR_HOST_URL
           value: https://sonarcloud.io
         - name: SONARQUBE_TOKEN
-          value: be612276ee7b2cbd4e63e3c09e08313621e7ee08
+          value: 629b21dbf2a527a4d94b9afddf091fb90fd02a4a
         - name: SONAR_PROJECT_KEY
-          value: my-org-tekton_key
+          value: timlam007_Java-maven-project
         - name: SONAR_ORGANIZATION
-          value: my-org-tekton
+          value: timlam007
         - name: SOURCE_TO_SCAN
           value: src
         - name: SONAR_TOKEN
-          value: be612276ee7b2cbd4e63e3c09e08313621e7ee08
+          value: 629b21dbf2a527a4d94b9afddf091fb90fd02a4a
       runAfter:
         - build-push-image
       workspaces:

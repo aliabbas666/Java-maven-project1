@@ -10,7 +10,7 @@ spec:
     - name: IMAGE
       value: quay.io/tinlam/java-app
     - name: TAG
-      value: latest
+      value: v1
   workspaces:
     - name: linked-workspace
       volumeClaimTemplate:
