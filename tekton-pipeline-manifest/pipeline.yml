@@ -62,16 +62,12 @@ spec:
       params:
         - name: SONAR_HOST_URL
           value: https://sonarcloud.io
-        - name: SONARQUBE_TOKEN
-          value: be612276ee7b2cbd4e63e3c09e08313621e7ee08
         - name: SONAR_PROJECT_KEY
           value: my-org-tekton_key
         - name: SONAR_ORGANIZATION
           value: my-org-tekton
         - name: SOURCE_TO_SCAN
           value: src
-        - name: SONAR_TOKEN
-          value: be612276ee7b2cbd4e63e3c09e08313621e7ee08
       runAfter:
         - build-push-image
       workspaces:
@@ -89,5 +85,5 @@ spec:
             kubectl apply --filename service.yaml
             kubectl apply --filename ingress.yaml
       workspaces:
-        - name: source
+        - name: manifest-dir
           workspace: linked-workspace
